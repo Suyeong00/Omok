@@ -24,13 +24,13 @@ def draw_board(screen, screen_size, state, units):
 
     # 가로선 그리기
     for row in range(board_size):
-        y = margin + row * cell_size
+        y = margin + row * cell_size + 100
         pygame.draw.line(screen, configuration.BLACK, (margin, y), (screen_size[0] - margin, y))
 
     # 세로선 그리기
     for col in range(board_size):
         x = margin + col * cell_size
-        pygame.draw.line(screen, configuration.BLACK, (x, margin), (x, screen_size[1] - margin))
+        pygame.draw.line(screen, configuration.BLACK, (x, margin + 100), (x, screen_size[0] - margin + 100))
 
     # 이벤트 처리
     for event in pygame.event.get():
