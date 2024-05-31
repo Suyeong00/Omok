@@ -31,6 +31,18 @@ def draw_board(screen, screen_size, state, units):
     for col in range(board_size):
         x = margin + col * cell_size
         pygame.draw.line(screen, configuration.BLACK, (x, margin + 100), (x, screen_size[0] - margin + 100))
+    
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+
+    # 마우스가 위치한 셀 찾기
+    col = (mouse_x - margin + cell_size // 2) // cell_size
+    row = (mouse_y - 100 - margin + cell_size // 2) // cell_size
+
+    if 0 <= col < board_size and 0 <= row < board_size:
+        x = margin + col * cell_size
+        y = margin + row * cell_size + 100
+        # 반투명한 돌 그리기
+        pygame.draw.circle(screen, configuration.GRAY, (x, y), cell_size // 3, width=1)
 
     # 이벤트 처리
     for event in pygame.event.get():
@@ -38,3 +50,4 @@ def draw_board(screen, screen_size, state, units):
             pygame.quit()
             sys.exit()
         back_button.is_clicked(event)
+        
