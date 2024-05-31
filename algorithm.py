@@ -133,6 +133,9 @@ def action(state):
 
     return actions
 
+def utility(state):
+    return evaluate(state)
+
 def result(state, action):
     state.place_white
 
@@ -143,7 +146,6 @@ def terminal(state):
         return True
     return False
     
-
 def print_board_with_actions(board, actions):
     size = 19
     display_board = [['.' for _ in range(size)] for _ in range(size)]
@@ -175,21 +177,21 @@ actions = action(state)
 
 print_board_with_actions(board, actions)
 
-# def max_value(state):
-#     if terminal(state):
-#         return utility(state)
-#     v = MIN
-#     for action in actions(state):
-#         v = max(v, min_value(result(action, state)))
-#     return v
+def max_value(state):
+    if terminal(state):
+        return utility(state)
+    v = MIN
+    for action in actions(state):
+        v = max(v, min_value(result(action, state)))
+    return v
 
-# def min_value(state):
-#     if terminal(state):
-#         return utility(state)
-#     v = MAX
-#     for action in actions(state):
-#         v = min(v, max_value(result(state, action)))
-#     return v
+def min_value(state):
+    if terminal(state):
+        return utility(state)
+    v = MAX
+    for action in actions(state):
+        v = min(v, max_value(result(state, action)))
+    return v
 
 
 
