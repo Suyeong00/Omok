@@ -1,9 +1,11 @@
 import pygame
+import configuration
 
-pygame.font.init()  # 폰트 초기화
+font = configuration.font
+# pygame.font.init()  # 폰트 초기화
 
-font_path = "resource/NanumGothic.ttf"
-font = pygame.font.Font(font_path, 36)
+# font_path = "resource/NanumGothic.ttf"
+# font = pygame.font.Font(font_path, 36)
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
