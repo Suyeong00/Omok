@@ -4,6 +4,7 @@ from title import draw_title
 from board import draw_board
 from description import draw_description
 from state import State, Status
+from arrangement import Arrangement
 
 # Pygame 초기화
 pygame.init()
@@ -18,6 +19,7 @@ state = State()
 
 # 게임 루프
 running = True
+arrangement = Arrangement()
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -26,9 +28,10 @@ while running:
     if not running : break
 
     if state.status == Status.Main:
+        arrangement.reset_board
         draw_title(screen, screen_size, state)
     elif state.status == Status.PvP:
-        draw_board(screen, screen_size, state, units)
+        draw_board(screen, screen_size, state, arrangement)
     elif state.status == Status.Description:
         draw_description(screen, screen_size, state)
     elif state.status == Status.Ai:
