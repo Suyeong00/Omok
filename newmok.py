@@ -19,7 +19,9 @@ state = State()
 
 # 게임 루프
 running = True
-arrangement = Arrangement()
+pvp_arrangement = Arrangement()
+ai_arrangement = Arrangement()
+#ai_dropdown = get_dropdown(screen_size, state, ai_arrangement)
 ai_dropdown = get_dropdown(screen_size)
 while running:
     for event in pygame.event.get():
@@ -29,10 +31,11 @@ while running:
     if not running : break
 
     if state.status == Status.Main:
-        arrangement.reset_board()
-        draw_title(screen, screen_size, state, ai_dropdown)
+        pvp_arrangement.reset_board()
+        ai_arrangement.reset_board()
+        draw_title(screen, screen_size, state, ai_dropdown, ai_arrangement)
     elif state.status == Status.PvP:
-        draw_pvp_board(screen, screen_size, state, arrangement)
+        draw_pvp_board(screen, screen_size, state, pvp_arrangement)
     elif state.status == Status.Description:
         draw_description(screen, screen_size, state)
     elif state.status == Status.Ai:
