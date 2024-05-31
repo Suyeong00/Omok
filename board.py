@@ -1,11 +1,8 @@
 import pygame
 import sys
+import configuration
 from button import Button
 from state import Status
-
-# 색상 설정
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
 
 # 바둑판 설정
 board_size = 19  # 바둑판 크기 (19x19)
@@ -16,7 +13,7 @@ def draw_board(screen, screen_size, state, units):
     margin = cell_size  # 테두리 여백
 
     # 화면을 흰색으로 채우기
-    screen.fill(WHITE)
+    screen.fill(configuration.WHITE)
 
     # 뒤로가기 버튼 생성
     def go_back():
@@ -28,12 +25,12 @@ def draw_board(screen, screen_size, state, units):
     # 가로선 그리기
     for row in range(board_size):
         y = margin + row * cell_size
-        pygame.draw.line(screen, BLACK, (margin, y), (screen_size[0] - margin, y))
+        pygame.draw.line(screen, configuration.BLACK, (margin, y), (screen_size[0] - margin, y))
 
     # 세로선 그리기
     for col in range(board_size):
         x = margin + col * cell_size
-        pygame.draw.line(screen, BLACK, (x, margin), (x, screen_size[1] - margin))
+        pygame.draw.line(screen, configuration.BLACK, (x, margin), (x, screen_size[1] - margin))
 
     # 이벤트 처리
     for event in pygame.event.get():

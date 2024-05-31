@@ -19,6 +19,12 @@ state = State()
 # 게임 루프
 running = True
 while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    
+    if not running : break
+
     if state.status == Status.Main:
         draw_title(screen, screen_size, state)
     elif state.status == Status.PvP:
@@ -28,10 +34,6 @@ while running:
     elif state.status == Status.Ai:
         # AI 대전 화면 구현
         pass
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
 
     # 화면 업데이트
     pygame.display.flip()
