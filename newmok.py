@@ -9,7 +9,7 @@ from state import State, Status
 pygame.init()
 
 # 화면 설정
-screen_size = (800, 800)  # 화면 크기
+screen_size = (600, 700)  # 화면 크기
 screen = pygame.display.set_mode(screen_size)
 pygame.display.set_caption("Newmok")
 
