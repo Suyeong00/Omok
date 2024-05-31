@@ -1,7 +1,7 @@
 import pygame
 import sys
-from title import draw_title
-from board import draw_board
+from title import draw_title, get_dropdown
+from pvp_board import draw_pvp_board
 from description import draw_description
 from state import State, Status
 from arrangement import Arrangement
@@ -20,6 +20,7 @@ state = State()
 # 게임 루프
 running = True
 arrangement = Arrangement()
+ai_dropdown = get_dropdown(screen_size)
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -28,10 +29,10 @@ while running:
     if not running : break
 
     if state.status == Status.Main:
-        arrangement.reset_board
-        draw_title(screen, screen_size, state)
+        arrangement.reset_board()
+        draw_title(screen, screen_size, state, ai_dropdown)
     elif state.status == Status.PvP:
-        draw_board(screen, screen_size, state, arrangement)
+        draw_pvp_board(screen, screen_size, state, arrangement)
     elif state.status == Status.Description:
         draw_description(screen, screen_size, state)
     elif state.status == Status.Ai:

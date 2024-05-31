@@ -4,7 +4,7 @@ import configuration
 from button import Button
 from state import Status
 
-def draw_board(screen, screen_size, state, arrangement):
+def draw_pvp_board(screen, screen_size, state, arrangement):
     # 바둑판 설정
     board_size = 19  # 바둑판 크기 (19x19)
 
