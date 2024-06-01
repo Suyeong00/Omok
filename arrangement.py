@@ -22,8 +22,14 @@ class Arrangement:
     def get_board_status(self):
         return self.board
     
+    def set_board_status(self, board):
+        self.board = board
+    
     def get_player(self):
         return self.current_player
+    
+    def set_player(self, player):
+        self.current_player = player
 
     def get_unit(self, x, y):
         return self.board[x][y]

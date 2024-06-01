@@ -4,6 +4,23 @@ from collections import deque
 MIN = -100000000
 MAX = 100000000
 
+def print_board_with_actions(board, actions):
+    size = 19
+    display_board = [['.' for _ in range(size)] for _ in range(size)]
+
+    for x in range(size):
+        for y in range(size):
+            if board[x][y] == 1:
+                display_board[x][y] = 'B'
+            elif board[x][y] == 2:
+                display_board[x][y] = 'W'
+
+    for (x, y) in actions:
+        display_board[x][y] = '*'
+
+    for row in display_board:
+        print(' '.join(row))
+
 def evaluate(state):
     size = 19  # 오목판 크기
     score = 0
@@ -86,13 +103,14 @@ def evaluate(state):
                 check_pattern(player, MAX, 0, [(0, 0), (1, 1), (2, 2), (3, 3), (4, 4)])
                 check_pattern(player, MAX, 0, [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4)])
                 check_pattern(player, MAX, 0, [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0)])
+    
 
     return score
 
 def player(state):
     return state.get_player
 
-def action(state):
+def actions(state):
     board = state.get_board_status()
     player = state.get_player()
     size = 19  # 오목판 크기
@@ -137,7 +155,17 @@ def utility(state):
     return evaluate(state)
 
 def result(state, action):
-    state.place_white
+    player = state.get_player()
+    state.set_unit(action[0], action[1], player)
+    state.set_player(3 - player)
+    return state
+
+def restore(state, action):
+    player = state.get_player()
+    state.set_unit(action[0], action[1], 0)
+    state.set_player(3 - player)
+    return state
+    
 
 def terminal(state):
     if state.get_player == 1 and evaluate(state) == MAX: 
@@ -145,23 +173,33 @@ def terminal(state):
     if state.get_player == 2 and evaluate(state) == MIN: 
         return True
     return False
-    
-def print_board_with_actions(board, actions):
-    size = 19
-    display_board = [['.' for _ in range(size)] for _ in range(size)]
 
-    for x in range(size):
-        for y in range(size):
-            if board[x][y] == 1:
-                display_board[x][y] = 'B'
-            elif board[x][y] == 2:
-                display_board[x][y] = 'W'
+def max_value(state, depth):
+    if terminal(state) or depth == 0:
+        return utility(state), None
+    v = MIN
+    best_action = None
+    for action in actions(state):
+        value, _ = min_value(result(state, action), depth - 1)
+        if value > v:
+            v = value
+            best_action = action
+        restore(state, action)
+    return v, best_action
 
-    for (x, y) in actions:
-        display_board[x][y] = '*'
+def min_value(state, depth):
+    if terminal(state) or depth == 0:
+        return utility(state), None
+    v = MAX
+    best_action = None
+    for action in actions(state):
+        value, _ = max_value(result(state, action), depth - 1)
+        if value < v:
+            v = value
+            best_action = action
+        restore(state, action)
+    return v, best_action
 
-    for row in display_board:
-        print(' '.join(row))
 
 # 예시 보드 (19x19)와 플레이어 설정
 state = arrangement.Arrangement()
@@ -173,26 +211,9 @@ score = evaluate(state)
 print("Score:", score)
 
 board = state.get_board_status()
-actions = action(state)
+action_list = actions(state)
 
-print_board_with_actions(board, actions)
-
-def max_value(state):
-    if terminal(state):
-        return utility(state)
-    v = MIN
-    for action in actions(state):
-        v = max(v, min_value(result(action, state)))
-    return v
-
-def min_value(state):
-    if terminal(state):
-        return utility(state)
-    v = MAX
-    for action in actions(state):
-        v = min(v, max_value(result(state, action)))
-    return v
-
-
-
-    
+print_board_with_actions(board, action_list)
+v, best_action = max_value(state, 3)
+print(best_action)
+# 위 알고리즘을 이용하여 player가 다음에 둬야 하는 수를 출력해보고싶다
